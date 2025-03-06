@@ -1,0 +1,99 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Sistem Informasi Geografis Masjid/Mushola">
+    <meta name="keyword" content="Sistem Informasi Geografis, Masjid, Mushola, Gis">
+    <meta name="author" content="yoga unimal">
+    <title>Login Page</title>
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'asset/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="{% static 'asset/css/sb-admin-2.min.css' %}" rel="stylesheet">
+
+    <style>
+        .bg {
+            background-color: #e4e4e4!important; ;
+            background-position: center;
+            background-size: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+
+<body class=" bg">
+    <div class="container">
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+            <div class="col-xl-5 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <!-- Nested Row within Card Body -->
+                        <div class="center">
+                            <div class="col-lg-6 d-none d-lg-block "></div>
+                            <div class="col-lg-20">
+                                <div class="p-3">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">SIG <br>Masjid / Musholla<br>
+                                            <br><img src="{% static 'asset/img/masjid.webp' %}" width="100">
+                                        </h1>
+                                    </div>
+                                    <form method="POST" >
+                                        {%csrf_token%}
+                                        <div class="form-group row">
+                                            <label for="email"
+                                                class="col-md-12 col-form-label text-md-left">Username</label>
+                                            <div class="col-md-12">
+                                                <input id="username" type="text"
+                                                    class="form-control"
+                                                    name="username"  required
+                                                    >
+
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <label for="password"
+                                                class="col-md-12 col-form-label text-md-left">Password</label>
+                                            <div class="col-md-12">
+                                                <input id="password" type="password"
+                                                    class="form-control "
+                                                    name="password" required >
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row mb-0">
+                                            <div class="col-md-12 ">
+                                                <button width="100%" type="submit"
+                                                    class="d-block btn  w-100 text-white"
+                                                    style="background-color: green!important">
+                                                    Login
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="{% static 'asset/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'asset/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- Core plugin JavaScript-->
+    <script src="{% static 'asset/vendor/jquery-easing/jquery.easing.min.js' %}"></script>
+    <!-- Custom scripts for all pages-->
+    <script src="{% static 'asset/js/sb-admin-2.min.js' %}"></script>
+</body>
+
+</html

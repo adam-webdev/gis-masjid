@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="content">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Data Masjid / Meunasah </h1>
+            <!-- Button trigger modal -->
+            <a href="{% url 'masjid_create' %}" class="btn btn-primary ">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    + Tambah
+                </button>
+            </a>
+
+        </div>
+
+        <div class="card p-4">
+            <div class="row">
+                <table class="table table-bordered" id="dataTable">
+                    <tr>
+                        <th>No</th>
+                        <th>Nama</th>
+                        <th>Tipe</th>
+                        <th>Tahun Berdiri</th>
+                        <th>Alamat</th>
+                        <th>Foto</th>
+                        <th>Aksi</th>
+                    </tr>
+                    {% for masjid in masjid %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ masjid.name }}</td>
+                        <td>{{ masjid.tipe }}</td>
+                        <td>{{ masjid.tahun }}</td>
+                        <td>{{ masjid.alamat }}</td>
+                        <td>
+                            {% if masjid.photo %}
+                                <img src="{{ masjid.photo.url }}" alt="Foto Masjid" class="img-fluid" width="100">
+                            {% endif %}
+                        </td>
+                        <td>
+                              <a href="{% url 'masjid_edit' masjid.pk %}" class="btn btn-sm btn-warning">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <a href="{% url 'masjid_delete' masjid.pk %}" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable();
+        });
+    </script>
+{% endblock %}

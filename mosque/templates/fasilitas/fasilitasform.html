@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="content">
+    <div class="container">
+        <h2 class="mt-4">Form Fasilitas</h2>
+        <form method="post"
+        action="{% if fasilitas.id %}{% url 'fasilitas_edit' fasilitas.id %}{% else %}{% url 'fasilitas_create' %}{% endif %}"
+        class="mt-3">
+            {% csrf_token %}
+            <div class="card p-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Nama Fasilitas</label>
+                                <input type="text" class="form-control" id="name" name="nama" value="{{ form.nama.value|default_if_none:'' }}"  required>
+                            </div>
+                        </div>
+                       <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="tipe_fasilitas" class="form-label">Tipe Fasilitas</label>
+                            <select class="form-control" id="tipe_fasilitas" name="tipe" required>
+                                <option value="">-- Pilih Tipe Fasilitas --</option>
+                                <option value="fasilitas umum" {% if form.nama.value == "fasilitas umum" %}selected{% endif %}>Fasilitas Umum</option>
+                                <option value="fasilitas ramah anak" {% if form.nama.value == "fasilitas ramah anak" %}selected{% endif %}>Fasilitas Ramah Anak</option>
+                                <option value="fasilitas disabilitas" {% if form.nama.value == "fasilitas disabilitas" %}selected{% endif %}>Fasilitas Disabilitas</option>
+                                <option value="fasilitas perpustakaan" {% if form.nama.value == "fasilitas perpustakaan" %}selected{% endif %}>Fasilitas Perpustakaan</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+{% endblock %}

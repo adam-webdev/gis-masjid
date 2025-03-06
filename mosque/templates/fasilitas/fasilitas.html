@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block title %}
+    Data Fasilitas
+{% endblock %}
+{% block css %}
+
+<style>
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+    }
+    .pagination a {
+        display: inline-block;
+        padding: 4px 8px;
+        text-decoration: none;
+        background-color: #007bff;
+        color: white;
+        border-radius: 5px;
+        transition: background 0.3s;
+    }
+    .current{
+        margin:0 5px;
+    }
+    .pagination a:hover {
+        background-color: #0056b3;
+    }
+    .pagination .current {
+        font-weight: bold;
+        padding: 6px 12px;
+        border: 1px solid #ddd;
+        background: #f8f9fa;
+        border-radius: 5px;
+    }
+</style>
+{% endblock %}
+{% block content %}
+    <div class="content">
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <h1 class="h3 mb-0 text-gray-800">Data Fasilitas </h1>
+            <!-- Button trigger modal -->
+            <a href="{% url 'fasilitas_create' %}" class="btn btn-primary ">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    + Tambah
+                </button>
+            </a>
+
+        </div>
+
+
+    <!-- Modal -->
+        <div class="card p-4">
+            <div class="row">
+                <table class="table table-bordered" id="dataTable">
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Fasilitas</th>
+                        <th>Aksi</th>
+                    </tr>
+                    {% for fasilitas in fasilitas %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ fasilitas.nama }}</td>
+                        <td>
+
+                            <a href="{% url 'fasilitas_edit' fasilitas.pk %}" class="btn btn-sm btn-warning">
+                                <i class="fas fa-pencil-alt"></i>
+                            </a>
+                            <a href="{% url 'fasilitas_delete' fasilitas.pk %}" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+        <!-- Navigasi Pagination -->
+
+        <div class="pagination mt-4">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; First</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Halaman {{ page_obj.number }} dari {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                {% endif %}
+
+            </span>
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document).ready(function() {
+            $('#dataTable').DataTable();
+        });
+    </script>
+{% endblock %}

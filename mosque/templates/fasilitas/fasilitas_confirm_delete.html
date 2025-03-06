@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="content">
+    <div class="card p-4">
+        <h2>Hapus Data Fasilitas</h2>
+        <p>Apakah Anda yakin ingin menghapus Data Fasilitas <b>{{ object.nama }}</b>?</p>
+        <form method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Hapus</button>
+            <a href="{% url 'fasilitas_list' %}" class="btn btn-secondary">Batal</a>
+        </form>
+    </div>
+</div>
+{% endblock %}

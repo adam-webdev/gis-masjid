@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="content">
+
+    <div class="container">
+        <h2 class="mt-4">Form Kegiatan</h2>
+        <form method="post"
+        action="{% if kegiatan.id %}{% url 'kegiatan_edit' kegiatan.id %}{% else %}{% url 'kegiatan_create' %}{% endif %}"
+        class="mt-3">
+            {% csrf_token %}
+            <div class="card p-4">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Nama Kegiatan</label>
+                                <input type="text" class="form-control" id="name" name="nama" value="{% form.nama.value|default_if_none:'' %}" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-primary">Simpan</button>
+
+                        </div>
+                    </div>
+                </div>
+        </form>
+        <form id="delete-form-{{ kegiatan.id }}" method="post" action="{% url 'kegiatan_delete' kegiatan.id %}" style="display: none;">
+            {% csrf_token %}
+        </form>
+
+    </div>
+</div>
+
+
+{% endblock %}
