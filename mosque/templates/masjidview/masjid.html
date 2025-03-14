@@ -1,14 +1,58 @@
 {% extends 'base.html' %}
+{% block title %}
+    Data Masjid
+{% endblock %}
+{% block css %}
+
+<style>
+    .pagination {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+    }
+    .pagination a {
+        display: inline-block;
+        padding: 4px 8px;
+        text-decoration: none;
+        background-color: var(--colorMain);
+        color: white;
+        border-radius: 5px;
+        transition: background 0.3s;
+    }
+    .current{
+        margin:0 5px;
+    }
+    .pagination a:hover {
+        background-color: var(--colorHover);
+
+    }
+    .pagination .current {
+        font-weight: bold;
+        padding: 6px 12px;
+        border: 1px solid #ddd;
+        background: #f8f9fa;
+        border-radius: 5px;
+    }
+</style>
+{% endblock %}
 {% block content %}
     <div class="content">
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <h1 class="h3 mb-0 text-gray-800">Data Masjid / Meunasah </h1>
             <!-- Button trigger modal -->
-            <a href="{% url 'masjid_create' %}" class="btn btn-primary ">
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    + Tambah
-                </button>
-            </a>
+            <div class="d-flex">
+                <a href="{% url 'import-masjid' %}">
+                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                      Import Data
+                    </button>
+                </a>
+                <a href="{% url 'masjid_create' %}">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        + Tambah
+                    </button>
+                </a>
+            </div>
+
 
         </div>
 
@@ -26,11 +70,11 @@
                     </tr>
                     {% for masjid in masjid %}
                     <tr>
-                        <td>{{ forloop.counter }}</td>
+                        <td>{{ forloop.counter|add:page_obj.start_index|add:-1 }}</td>
                         <td>{{ masjid.name }}</td>
                         <td>{{ masjid.tipe }}</td>
                         <td>{{ masjid.tahun }}</td>
-                        <td>{{ masjid.alamat }}</td>
+                        <td>{{ masjid.address }}</td>
                         <td>
                             {% if masjid.photo %}
                                 <img src="{{ masjid.photo.url }}" alt="Foto Masjid" class="img-fluid" width="100">
@@ -48,6 +92,24 @@
                     {% endfor %}
                 </table>
             </div>
+        </div>
+          <div class="pagination mt-4">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                    <a href="?page=1">&laquo; First</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Halaman {{ page_obj.number }} dari {{ page_obj.paginator.num_pages }}.
+                </span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}">Next</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">Last &raquo;</a>
+                {% endif %}
+
+            </span>
         </div>
     </div>
 {% endblock %}

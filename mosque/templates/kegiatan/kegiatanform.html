@@ -14,7 +14,7 @@
                         <div class="col-md-6">
                             <div class="mb-3">
                                 <label for="name" class="form-label">Nama Kegiatan</label>
-                                <input type="text" class="form-control" id="name" name="nama" value="{% form.nama.value|default_if_none:'' %}" required>
+                                <input type="text" class="form-control" id="name" name="nama"  value="{{ form.nama.value|default_if_none:'' }}" required>
                             </div>
                         </div>
                     </div>
@@ -26,9 +26,7 @@
                     </div>
                 </div>
         </form>
-        <form id="delete-form-{{ kegiatan.id }}" method="post" action="{% url 'kegiatan_delete' kegiatan.id %}" style="display: none;">
-            {% csrf_token %}
-        </form>
+
 
     </div>
 </div>

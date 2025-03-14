@@ -25,3 +25,6 @@ class KegiatanForm(forms.ModelForm):
     class Meta:
         model = Kegiatan
         fields = ['nama']
+
+class MasjidImportForm(forms.ModelForm):
+    file = forms.FileField()

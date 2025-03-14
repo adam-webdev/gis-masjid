@@ -33,6 +33,7 @@ LOGIN_REDIRECT_URL = '/dashboard/'  # Ganti dengan URL dashboard kamu
 # Application definition
 
 INSTALLED_APPS = [
+    'sslserver',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,6 +43,12 @@ INSTALLED_APPS = [
     'mosque',
     'crispy_forms',
     'widget_tweaks',
+]
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "localhost",
+    "a623-114-124-151-198.ngrok-free.app",
+
 ]
 
 MIDDLEWARE = [

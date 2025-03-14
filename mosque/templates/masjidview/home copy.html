@@ -1,0 +1,391 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="{% static 'asset/css/sb-admin-2.min.css' %}" rel="stylesheet">
+  <link href="{% static 'asset/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Home | SIG</title>
+  <style>
+    :root{
+      --colorMain: #01760b;
+      --colorHover:#03580a;
+      --fontFamily:'Poppins' san-serif;
+    }
+    .btn-primary{
+      border: none;
+      background-color: var(--colorMain)!important;
+    }
+    .btn-primary:hover{
+      background-color: var(--colorHover)!important;
+    }
+    .navbar {
+      background-color: white !important;
+      font-family: var(--fontFamily);
+      color: #000;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    }
+    .navbar-nav .nav-link {
+      color: #000;
+      font-weight: 500;
+      font-family: var(--fontFamily);
+      transition: 0.3s;
+    }
+    .navbar-nav .nav-link:hover {
+      color: var(--colorHover);
+    }
+    .navbar-collapse{
+      z-index: 10;
+    }
+    .navbar-brand {
+      font-weight: bold;
+    }
+    .banner {
+      background: url('{% static "asset/img/banner.png" %}');
+      background-size: cover;
+      background-position: center; /* Pusatkan gambar */
+      width: 100%;
+      height: 100vh; /* Tinggi penuh sesuai layar */
+      display: flex;
+      color: var(--colorMain);
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .banner::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5); /* Warna hitam transparan */
+        z-index: 1;
+    }
+    .banner-content {
+      z-index: 9;
+      position: relative;
+    }
+
+    .lokasi{
+      background-color: rgb(223, 223, 223);
+    }
+    .lokasi h2{
+      font-size: 24px;
+      font-weight: bold;
+      margin: 40px 0;
+    }
+
+    .custom-image-icon .icon-wrapper {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%; /* Bikin ikon bulat */
+      overflow: hidden; /* Supaya gambar nggak keluar */
+      border: 3px solid #ff120e; /* Border warna emas */
+      box-shadow: 0 0 10px rgba(249, 18, 18, 0.8); /* Efek glow */
+    }
+
+    .custom-image-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Biar foto tetap proporsional */
+    }
+
+    @media screen and (max-width:540px){
+      .container {
+        padding: 0 14px!important;
+      }
+      .banner-content {
+        margin-top: 100px;
+      }
+      .banner-content h1{
+        font-size: 24px;
+      }
+      .banner-content p{
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+
+<!-- Navbar -->
+ <div class="container ">
+
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <div class="container">
+      <div class="d-flex align-items-center">
+        <img class="mr-2" src="{% static 'asset/img/masjid.webp' %}" width="50px" alt="Logo Sistem Informas Geografis Letak Masjid Meunasah">
+        <a class="navbar-brand" href="{% url 'home' %}">Simas Sumut</a>
+      </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'masjid' %}">Data Masjid</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/login/">Masuk</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+ </div>
+<!-- Banner Section -->
+<section class="banner d-flex align-items-center text-center text-white">
+  <div class="container">
+    <div class="banner-content">
+      <h1 class="display-4 font-weight-bold">Selamat Datang di Simas Sumatera Utara </h1>
+      <p class="lead">🕌 Temukan Masjid & Meunasah Terdekat dengan Mudah! <br>🌍 Jelajahi & Temukan masjid atau meunasah terdekat di sekitar Anda dengan sistem pencarian yang akurat dan cepat.
+      <br>🕋 Informasi Lengkap mulai dari fasilitas, kegiatan, hingga lokasi yang mudah dijangkau.
+      <br>📍 Arahkan Perjalanan Anda langsung ke tempat ibadah dengan navigasi yang praktis. <br>🔎 Mulai Temukan Masjid Sekarang! ✨</p>
+      <a href="{% url 'masjid' %}" class="btn btn-primary btn-lg">Lihat Data Masjid <i class="fa fa-arrow-down" style="font-size: 14px;"></i></a>
+    </div>
+  </div>
+</section>
+<section class="lokasi">
+    <div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- MAP -->
+            <div class="mb-4">
+                <h2 class="text-center"> Lokasi Masjid & Meunasah Terdekat </h2>
+                <button id="toggle-controls" class="btn btn-primary mb-4">Tampilkan/Sembunyikan Panel</button>
+                <div id="map" style="height: 500px;"></div>
+            </div>
+        </div>
+    </div>
+  </div>
+</section>
+<div class="masjid">
+  <div class="row">
+    {% for masjid in masjid_html %}
+    <div class="col-md-3">
+      <div class="card">
+        <div class="card-header">
+          <h5>{{ masjid.nama }}</h5>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<!-- Spacing supaya konten tidak tertutup navbar -->
+<div style="height: 80px;"></div>
+
+<!-- Custom scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'asset/js/sb-admin-2.min.js' %}"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"/>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+<script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("toggle-controls").addEventListener("click", function () {
+        var leafletControls = document.querySelectorAll(".leaflet-right .leaflet-control");
+
+        leafletControls.forEach(control => {
+            if (control.style.display === "none") {
+                control.style.display = "block"; // Tampilkan kembali
+            } else {
+                control.style.display = "none"; // Sembunyikan
+            }
+        });
+    });
+
+    // var masjidData = {{ masjid|safe }}
+    // var lat_bekasi  = -6.25271046908979
+    // var long_bekasi = 106.99857367674495
+
+
+    var masjidData = JSON.parse('{{ masjid|safe }}');
+    console.log(masjidData);
+
+    // Geolocation API untuk mendeteksi lokasi pengguna
+    if ("geolocation" in navigator) {
+      navigator.geolocation.watchPosition(
+        function (position) {
+            var lat = position.coords.latitude;
+            var lon = position.coords.longitude;
+
+            var map = L.map('map').setView([lat, lon], 12);  // Default Jakarta
+            var marker = L.marker([lat, lon], { draggable: true }).addTo(map);
+          // Tambahkan semua marker masjid dengan map()
+            var routeControl;
+            var masjidTerdekat = masjidData.filter(masjid => {
+                var jarak = haversine(lat, lon, masjid.lat, masjid.lon);
+                console.log("jarak",jarak)
+                return jarak <= 10; // Masjid ≤ 5KM
+            });
+
+            masjidTerdekat.map(masjid => {
+              // console.log("masjid ", masjid.name)
+              var customIcon = (masjid.foto && masjid.foto.trim() !== '')
+                ? L.divIcon({
+                    className: 'custom-image-icon',
+                    html: `<div class="icon-wrapper">
+                                <img src="${masjid.foto}" alt="Masjid" />
+                          </div>`,
+                    iconSize: [50, 50],
+                    iconAnchor: [25, 50],
+                    popupAnchor: [0, -50]
+                })
+                : L.divIcon({
+                    className: 'custom-fa-icon',
+                    html: '<div class="icon-container"><i class="fas fa-mosque fa-3x"></i></div>',
+                    iconSize: [50, 50],
+                    iconAnchor: [25, 50],
+                    popupAnchor: [0, -50]
+                });
+
+                var jarakanda = haversine(lat, lon, masjid.lat, masjid.lon);
+                let jarakTampil = jarakanda < 1 ? `${(jarakanda * 1000).toFixed(0)} m` : `${jarakanda.toFixed(1)} km`;
+                console.log("jarak ", jarakTampil)
+
+                var marker  = L.marker([masjid.lat, masjid.lon], { icon: customIcon }).addTo(map)
+                    .bindPopup(`
+                        <h3>${masjid.nama}</h3>
+                        <p><b>Jarak :</b> ${jarakTampil}</p>
+                        <p><i>Klik icon ini untuk rute!</i></p>
+                        `);
+                  marker.on('click', function () {
+                    var localizationId = {
+                        directions: {
+                            N: "Utara",
+                            E: "Timur",
+                            S: "Selatan",
+                            W: "Barat",
+                            NE: "Timur Laut",
+                            SE: "Tenggara",
+                            SW: "Barat Daya",
+                            NW: "Barat Laut",
+                            SlightRight: "Sedikit ke kanan",
+                            Right: "Belok kanan",
+                            SharpRight: "Belok tajam ke kanan",
+                            SlightLeft: "Sedikit ke kiri",
+                            Left: "Belok kiri",
+                            SharpLeft: "Belok tajam ke kiri",
+                            Uturn: "Putar balik",
+                            Straight: "Lurus terus"
+                        },
+                        formatOrder: function(n) {
+                            return n + ".";
+                        },
+                        ui: {
+                            startPlaceholder: "Mulai",
+                            endPlaceholder: "Tujuan"
+                        },
+                        units: {
+                            meters: "meter",
+                            kilometers: "km"
+                        }
+                    };
+
+                    if (routeControl) {
+                        map.removeControl(routeControl);
+                    }
+
+                    // Tambahkan routing ke lokasi masjid yang diklik
+                    // Buat rute baru ke lokasi masjid dengan teks bahasa Indonesia
+                    routeControl = L.Routing.control({
+                        waypoints: [
+                            L.latLng(lat, lon),
+                            L.latLng(masjid.lat, masjid.lon)
+                        ],
+                        routeWhileDragging: true,
+                        language:'id',
+                        createMarker: function(i, waypoint, n) {
+                            return L.marker(waypoint.latLng, {
+                                draggable: true
+                            }).bindPopup(i === 0 ? "Mulai" : "Tujuan");
+                        },
+                        formatter: new L.Routing.Formatter(localizationId)
+                    }).addTo(map);
+                  });
+              });
+
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+
+
+            //   marker = L.marker([lat, lon])
+            // .addTo(map)
+            // .bindPopup(`<p>Lokasi Anda</p>`);
+            // console.log("📍 Lokasi dari GPS: ", lat, lon); // Debug di Console
+
+            // Set lokasi awal peta ke lokasi pengguna
+            // map.setView([lat, lon], 15);
+            // marker.setLatLng([lat, lon]);
+
+        },
+
+
+
+        function (error) {
+            console.error("❌ Gagal mendapatkan lokasi:", error.message);
+        },
+        {
+            enableHighAccuracy: true,  // GPS lebih akurat
+            timeout: 5000,             // Timeout jika GPS lambat
+            maximumAge: 0              // Jangan gunakan cache, selalu update lokasi
+        }
+      );
+    } else {
+        console.error("❌ Browser tidak mendukung Geolocation API.");
+    }
+
+    // Event: Drag marker untuk update koordinat
+    // marker.on('dragend', function (event) {
+    //     var position = marker.getLatLng();
+    //     console.log("📍 Marker dipindah ke:", position.lat, position.lng);
+    //     document.getElementById("latitude").value = position.lat;
+    //     document.getElementById("longitude").value = position.lng;
+    // });
+
+    // Event: Klik peta untuk pindahkan marker ke lokasi baru
+    // map.on('click', function (event) {
+    //     marker.setLatLng(event.latlng);
+    //     console.log("📍 Klik di lokasi:", event.latlng.lat, event.latlng.lng);
+    //     // document.getElementById("latitude").value = event.latlng.lat;
+    //     // document.getElementById("longitude").value = event.latlng.lng;
+    // });
+
+    // Tambahkan Search Box (Geocoder)
+    L.Control.geocoder({
+        defaultMarkGeocode: false
+    }).on('markgeocode', function (e) {
+        var latlng = e.geocode.center;
+        console.log("🔎 Hasil Geocoder:", latlng.lat, latlng.lng);
+        map.setView(latlng, 15);
+        marker.setLatLng(latlng);
+        document.getElementById("latitude").value = latlng.lat;
+        document.getElementById("longitude").value = latlng.lng;
+    }).addTo(map);
+
+    function haversine(lat1, lon1, lat2, lon2) {
+      let R = 6371; // Radius bumi dalam KM
+      let dLat = (lat2 - lat1) * (Math.PI / 180);
+      let dLon = (lon2 - lon1) * (Math.PI / 180);
+      let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+              Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+              Math.sin(dLon / 2) * Math.sin(dLon / 2);
+      let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+      return R * c; // Hasil dalam KM
+    }
+});
+
+</script>
+</body>
+</html>

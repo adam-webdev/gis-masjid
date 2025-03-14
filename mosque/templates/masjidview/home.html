@@ -1,0 +1,448 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="{% static 'asset/css/sb-admin-2.min.css' %}" rel="stylesheet">
+  <link href="{% static 'asset/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <title>Home | SIG</title>
+  <style>
+    :root{
+      --colorMain: #01760b;
+      --colorHover:#03580a;
+      --fontFamily:'Poppins' san-serif;
+    }
+    body{
+      font-family: var(--fontFamily);
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+    .btn-primary{
+      border: none;
+      background-color: var(--colorMain)!important;
+    }
+    .btn-primary:hover{
+      background-color: var(--colorHover)!important;
+    }
+    .navbar {
+      background-color: white !important;
+      font-family: var(--fontFamily);
+      color: #000;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    }
+    .navbar-nav .nav-link {
+      color: #000;
+      font-weight: 500;
+      font-family: var(--fontFamily);
+      transition: 0.3s;
+    }
+    .navbar-nav .nav-link:hover {
+      color: var(--colorHover);
+    }
+    .navbar-collapse{
+      z-index: 10;
+    }
+    .navbar-brand {
+      font-weight: bold;
+    }
+    .banner {
+      background: url('{% static "asset/img/banner.png" %}');
+      background-size: cover;
+      background-position: center; /* Pusatkan gambar */
+      width: 100%;
+      height: 100vh; /* Tinggi penuh sesuai layar */
+      display: flex;
+      color: var(--colorMain);
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .banner::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.5); /* Warna hitam transparan */
+        z-index: 1;
+    }
+    .banner-content {
+      z-index: 9;
+      position: relative;
+    }
+
+    .lokasi{
+      background-color: rgb(223, 223, 223);
+    }
+    .lokasi h2{
+      font-size: 24px;
+      font-weight: bold;
+      margin: 40px 0;
+    }
+
+    .custom-image-icon .icon-wrapper {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%; /* Bikin ikon bulat */
+      overflow: hidden; /* Supaya gambar nggak keluar */
+      border: 3px solid #ff120e; /* Border warna emas */
+      box-shadow: 0 0 10px rgba(249, 18, 18, 0.8); /* Efek glow */
+    }
+
+    .custom-image-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Biar foto tetap proporsional */
+    }
+    .wrapp-img {
+      width: 100%;
+      height: 200px; /* Ukuran seragam */
+      overflow: hidden;
+    }
+
+    .wrapp-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; /* Pastikan gambar tidak gepeng */
+    }
+
+    .card {
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .card-body {
+      padding: 15px;
+    }
+
+    h5 {
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+    small{
+      font-size: 11px;
+    }
+
+    @media screen and (max-width:540px){
+      .container {
+        padding: 0 14px!important;
+      }
+      .banner-content {
+        margin-top: 100px;
+      }
+      .banner-content h1{
+        font-size: 24px;
+      }
+      .banner-content p{
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+
+<!-- Navbar -->
+ <div class="container ">
+
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <div class="container">
+      <div class="d-flex align-items-center">
+        <img class="mr-2" src="{% static 'asset/img/masjid.webp' %}" width="50px" alt="Logo Sistem Informas Geografis Letak Masjid Meunasah">
+        <a class="navbar-brand" href="{% url 'home' %}">Simas Sumut</a>
+      </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="#lokasi">Data Masjid</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/login/">Masuk</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+ </div>
+<!-- Banner Section -->
+<section class="banner d-flex align-items-center text-center text-white">
+  <div class="container">
+    <div class="banner-content">
+      <h1 class="display-4 font-weight-bold">Selamat Datang di Simas Sumatera Utara </h1>
+      <p class="lead">🕌 Temukan Masjid & Meunasah Terdekat dengan Mudah! <br>🌍 Jelajahi & Temukan masjid atau meunasah terdekat di sekitar Anda dengan sistem pencarian yang akurat dan cepat.
+      <br>🕋 Informasi Lengkap mulai dari fasilitas, kegiatan, hingga lokasi yang mudah dijangkau.
+      <br>📍 Arahkan Perjalanan Anda langsung ke tempat ibadah dengan navigasi yang praktis. <br>🔎 Mulai Temukan Masjid Sekarang! ✨</p>
+      <a href="#masjidList" class="btn btn-primary btn-lg">Lihat Data Masjid <i class="fa fa-arrow-down" style="font-size: 14px;"></i></a>
+    </div>
+  </div>
+</section>
+<section class="lokasi" id="lokasi">
+    <div class="container">
+    <div class="row">
+
+        <div class="col-md-12">
+          <!-- MAP -->
+          <div class="mb-4">
+            <h2 class="text-center"> Lokasi Masjid & Meunasah Terdekat </h2>
+            <div class="d-flex align-items-center justify-content-between">
+              <div class="form-group">
+                <label for="radiusSelect">Jarak Maksimal:</label>
+                <select id="radiusSelect" class="form-control">
+                    <option value="1">1 km</option>
+                    <option value="3">3 km</option>
+                    <option value="5" selected>5 km</option>
+                    <option value="10">10 km</option>
+                    <option value="15">15 km</option>
+                    <option value="20">20 km</option>
+                </select>
+              </div>
+              <button id="toggle-controls" class="btn btn-primary mb-4">Panel Arah</button>
+            </div>
+            <div id="map" style="height: 500px;"></div>
+          </div>
+        </div>
+
+    </div>
+  </div>
+</section>
+<div class="masjid py-4">
+  <div class="container">
+    <h3 class="text-center mb-4">Data Masjid & Meunasah Terdekat</h3>
+    <div class="row" id="masjidList">
+      <!-- {% for masjid in masjid_html %}
+      <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+        <div class="card shadow-sm">
+          <div class="card-header text-center p-0">
+            <div class="wrapp-img">
+              <img src="{{ masjid.foto }}" alt="{{ masjid.nama }}" class="img-fluid">
+            </div>
+          </div>
+          <div class="card-body">
+            <h5 class="text-center">{{ masjid.nama }}</h5>
+            <hr>
+            {% for tipe, fasilitas_list in masjid.fasilitas_grouped.items %}
+              <p class="mb-1"><strong>{{ tipe|title }}</strong></p>
+              <ul class="list-unstyled small">
+                {% for nama in fasilitas_list %}
+                <li>✅ {{ nama }}</li>
+                {% endfor %}
+              </ul>
+            {% endfor %}
+
+            <p><strong>Kegiatan:</strong></p>
+            <ul class="list-unstyled small">
+              {% for kegiatan in masjid.kegiatan %}
+              <li>📌 {{ kegiatan }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      {% endfor %} -->
+    </div>
+  </div>
+</div>
+
+<!-- Spacing supaya konten tidak tertutup navbar -->
+<div style="height: 80px;"></div>
+
+<!-- Custom scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="{% static 'asset/js/sb-admin-2.min.js' %}"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"/>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+<script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("toggle-controls").addEventListener("click", function () {
+        var leafletControls = document.querySelectorAll(".leaflet-right .leaflet-control");
+
+        leafletControls.forEach(control => {
+            if (control.style.display === "none") {
+                control.style.display = "block"; // Tampilkan kembali
+            } else {
+                control.style.display = "none"; // Sembunyikan
+            }
+        });
+    });
+
+    var map, userMarker, routeControl;
+    var masjidData = JSON.parse('{{ masjid|escapejs }}');
+
+    console.log(masjidData);
+    // Inisialisasi peta hanya sekali
+    function initMap(lat, lon) {
+        if (!map) {
+            map = L.map('map').setView([lat, lon], 12);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(map);
+        } else {
+            map.setView([lat, lon], 12);
+        }
+
+        if (!userMarker) {
+            userMarker = L.marker([lat, lon], { draggable: true }).addTo(map);
+        } else {
+            userMarker.setLatLng([lat, lon]);
+        }
+
+        tampilkanMasjidTerdekat(lat, lon);
+    }
+
+    // Fungsi untuk menghitung jarak Haversine
+    function haversine(lat1, lon1, lat2, lon2) {
+        let R = 6371;
+        let dLat = (lat2 - lat1) * (Math.PI / 180);
+        let dLon = (lon2 - lon1) * (Math.PI / 180);
+        let a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) *
+            Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
+    }
+
+    // Fungsi untuk menampilkan masjid berdasarkan radius
+    function tampilkanMasjidTerdekat(lat, lon) {
+        var radius = document.getElementById("radiusSelect").value;
+
+        // Hapus marker lama
+        map.eachLayer(layer => {
+            if (layer instanceof L.Marker && layer !== userMarker) {
+                map.removeLayer(layer);
+            }
+        });
+
+        var masjidTerdekat = masjidData.filter(masjid => haversine(lat, lon, masjid.lat, masjid.lon) <= radius);
+
+       document.getElementById("masjidList").innerHTML = "";
+          masjidTerdekat.forEach(masjid => {
+              // let fasilitasHTML = "";
+
+              // if (masjid.fasilitas_grouped && Object.keys(masjid.fasilitas_grouped).length > 0) {
+              //     Object.keys(masjid.fasilitas_grouped).forEach(tipe => {
+              //         fasilitasHTML += `<p class="mb-1"><strong>${tipe}</strong></p><ul class="list-unstyled small">`;
+              //         masjid.fasilitas_grouped[tipe].forEach(nama => {
+              //             fasilitasHTML += `<li>✅ ${nama}</li>`;
+              //         });
+              //         fasilitasHTML += `</ul>`;
+              //     });
+              // } else {
+              //     fasilitasHTML = "<p class='text-muted'><i>Tidak ada fasilitas tersedia</i></p>";
+              // }
+
+              var estimasiWaktuTempuh = estimasiWaktu(haversine(lat, lon, masjid.lat, masjid.lon), 40);
+
+              // let kegiatanHTML = "";
+              // if (masjid.kegiatan && masjid.kegiatan.length > 0) {
+              //     kegiatanHTML = masjid.kegiatan.map(kegiatan => `<li>📌 ${kegiatan}</li>`).join("");
+              // } else {
+              //     kegiatanHTML = "<p class='text-muted'><i>Tidak ada kegiatan</i></p>";
+              // }
+
+              console.log("id masjid", masjid.id);
+              let masjidCard = `
+                  <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                      <div class="card shadow-sm">
+                          <div class="card-header text-center p-0">
+                              <div class="wrapp-img">
+                                  <img src="${masjid.foto}" alt="${masjid.nama}" class="img-fluid">
+                              </div>
+                          </div>
+                          <div class="card-body">
+                              <h5 class="text-center">${masjid.nama}</h5>
+                              <div class="d-flex align-items-center justify-content-between">
+                                  <small>Jarak: <b>${haversine(lat, lon, masjid.lat, masjid.lon).toFixed(1)}</b> km</small>
+                                  <small>Estimasi waktu: <b>${estimasiWaktuTempuh} </b>menit</small>
+                              </div>
+                              <hr>
+
+                              <a href="masjid-detail/${masjid.id}" class="btn btn-primary btn-sm">Lihat Detail</a>
+                          </div>
+                      </div>
+                  </div>
+              `;
+
+// ${fasilitasHTML}
+// <ul>${kegiatanHTML}</ul>
+            document.getElementById("masjidList").innerHTML += masjidCard;
+            var customIcon = masjid.foto ?
+                L.divIcon({
+                    className: 'custom-image-icon',
+                    html: `<div class="icon-wrapper"><img src="${masjid.foto}" alt="Masjid" /></div>`,
+                    iconSize: [50, 50],
+                    iconAnchor: [25, 50],
+                    popupAnchor: [0, -50]
+                }) :
+                L.divIcon({
+                    className: 'custom-fa-icon',
+                    html: '<div class="icon-container"><i class="fas fa-mosque fa-3x"></i></div>',
+                    iconSize: [50, 50],
+                    iconAnchor: [25, 50],
+                    popupAnchor: [0, -50]
+                });
+
+            var jarak = haversine(lat, lon, masjid.lat, masjid.lon);
+            let jarakTampil = jarak < 1 ? `${(jarak * 1000).toFixed(0)} m` : `${jarak.toFixed(1)} km`;
+
+            var marker = L.marker([masjid.lat, masjid.lon], { icon: customIcon }).addTo(map)
+                .bindPopup(`<h3>${masjid.nama}</h3><p><b>Jarak :</b> ${jarakTampil}</p><p><i>Klik icon ini untuk rute!</i></p>`);
+
+            marker.on('click', function () {
+                if (routeControl) {
+                    map.removeControl(routeControl);
+                }
+                routeControl = L.Routing.control({
+                    waypoints: [L.latLng(lat, lon), L.latLng(masjid.lat, masjid.lon)],
+                    routeWhileDragging: true
+                }).addTo(map);
+            });
+        });
+    }
+
+    // Geolocation API untuk mendeteksi lokasi pengguna
+    if ("geolocation" in navigator) {
+        navigator.geolocation.watchPosition(
+            function (position) {
+                initMap(position.coords.latitude, position.coords.longitude);
+            },
+            function (error) {
+                console.error("❌ Gagal mendapatkan lokasi:", error.message);
+            },
+            { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+        );
+    } else {
+        console.error("❌ Browser tidak mendukung Geolocation API.");
+    }
+
+    function estimasiWaktu(jarak, kecepatan) {
+      let waktuJam = jarak / kecepatan;
+      let waktuMenit = Math.round(waktuJam * 60);
+      return waktuMenit;
+    }
+    // Event listener untuk select radius
+    document.getElementById("radiusSelect").addEventListener("change", function () {
+        if (userMarker) {
+            var pos = userMarker.getLatLng();
+            tampilkanMasjidTerdekat(pos.lat, pos.lng);
+        }
+    });
+});
+
+
+</script>
+</body>
+</html>

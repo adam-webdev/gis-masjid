@@ -1,5 +1,67 @@
 {% extends 'base.html' %}
 
+{% block css %}
+
+<style>
+    input[type="checkbox"] {
+        cursor: pointer;
+        transform: scale(1.2); /* Perbesar ukuran checkbox */
+        accent-color: var(--colorMain); /* Ubah warna checkbox jika didukung */
+    }
+    label:hover{
+        cursor: pointer;
+        font-weight: bold;
+    }
+    .header-fasilitas {
+        font-weight: bold;
+        margin-top: 10px;
+        margin-bottom: 4px;
+        display: block;
+    }
+    .custom-file-upload {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 150px;
+        border: 2px dashed var(--colorMain); /* Warna hijau */
+        border-radius: 10px;
+        cursor: pointer;
+        background-color: #f8f9fa;
+        text-align: center;
+        position: relative;
+        transition: background 0.3s;
+    }
+
+    .custom-file-upload label {
+        font-size: 16px;
+        color: var(--colorMain);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .custom-file-upload i {
+        font-size: 24px;
+    }
+
+    .file-input {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .custom-file-upload:hover {
+        background-color: #e9f5eb;
+    }
+
+
+</style>
+
+{% endblock %}
 {% block content %}
 <div class="content">
     <div class="container">
@@ -12,21 +74,21 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
-                            <label for="name" class="form-label">Nama Masjid / Mushola</label>
+                            <label for="name" class="form-label">Nama Masjid / Meunasah</label>
                             <input type="text" class="form-control" value="{{ form.name.value|default_if_none:'' }}" id="name" name="name" required>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="tahun" class="form-label">Tahun Berdiri</label>
-                            <input type="text" class="form-control" value="{{ form.tahun.value|default_if_none:'' }}" id="tahun" name="tahun" required>
+                            <input type="number" class="form-control" value="{{ form.tahun.value|default_if_none:'' }}" id="tahun" name="tahun" required>
                         </div>
                     </div>
                 </div>
                 <div class="row">
                    <div class="col-md-6">
                         <div class="mb-3">
-                            <label for="tipe" class="form-label">Tipe Masjid / Mushola</label>
+                            <label for="tipe" class="form-label">Tipe Masjid / Meunasah</label>
                             <select class="form-control" id="tipe" name="tipe" required>
                                 <option value="" disabled>Pilih Tipologi Masjid</option>
                                 <option value="Masjid Raya" {% if form.tipe.value == "Masjid Raya" %}selected{% endif %}>Masjid Raya</option>
@@ -36,7 +98,7 @@
                                 <option value="Masjid Bersejarah" {% if form.tipe.value == "Masjid Bersejarah" %}selected{% endif %}>Masjid Bersejarah</option>
                                 <option value="Masjid Percontohan" {% if form.tipe.value == "Masjid Percontohan" %}selected{% endif %}>Masjid Percontohan</option>
                                 <option value="Masjid Institusi" {% if form.tipe.value == "Masjid Institusi" %}selected{% endif %}>Masjid Di Tempat Publik</option>
-                                <option value="Mushola" {% if form.tipe.value == "Mushola" %}selected{% endif %}>Mushola</option>
+                                <option value="Meunasah" {% if form.tipe.value == "Meunasah" %}selected{% endif %}>Meunasah</option>
                             </select>
                         </div>
                     </div>
@@ -44,7 +106,7 @@
                     <div class="col-md-6">
                         <div class="mb-3">
                             <label for="contact" class="form-label">Kontak</label>
-                            <input type="text" class="form-control" value="{{ form.contact.value|default_if_none:'' }}" id="contact" name="contact" required>
+                            <input type="number" class="form-control" value="{{ form.contact.value|default_if_none:'' }}" id="contact" name="contact" required>
                         </div>
                     </div>
                 </div>
@@ -63,16 +125,24 @@
                     </div>
                 </div>
 
-                <div class="col-md-12">
-                    <div class="mb-3">
-                        <label for="image" class="form-label">Foto Masjid</label>
-                        <input type="file" class="form-control" id="image" name="photo">
-                        {% if masjid.photo %}
-                            <p>Foto saat ini:</p>
-                            <img src="{{ masjid.photo.url }}" alt="Foto Masjid" class="img-fluid" width="200">
-                        {% endif %}
+             <div class="col-md-12">
+                <div class="mb-3">
+                    <label for="image" class="form-label">Foto Masjid</label>
+                    <div class="custom-file-upload">
+                        <input type="file" class="file-input" id="image" name="photo" onchange="previewImage(event)">
+                        <label for="image">
+                            <i class="fas fa-cloud-upload-alt"></i> Pilih Foto
+                        </label>
                     </div>
+                    {% if masjid.photo %}
+                        <p>Foto saat ini:</p>
+                        <img id="preview" src="{{ masjid.photo.url }}" alt="Foto Masjid" class="img-fluid" width="200">
+                    {% else %}
+                        <img id="preview" src="" alt="" class="img-fluid mt-2" width="120" style="display:none;">
+                    {% endif %}
                 </div>
+            </div>
+
 
                 <div class="col-md-12">
                     <!-- MAP -->
@@ -81,38 +151,6 @@
                         <div id="map" style="height: 300px;"></div>
                     </div>
                 </div>
-
-              <div class="row">
-                <!-- Fasilitas -->
-                <div class="col-md-6">
-                    <label class="form-label">Fasilitas</label>
-                    <div class="card p-2">
-                        {% for fasilitas in form.fasilitas.field.choices %}
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="fasilitas" value="{{ fasilitas.0 }}"
-                                    {% if fasilitas.0 in form.fasilitas.value %}checked{% endif %}>
-                                <label class="form-check-label">{{ fasilitas.1 }}</label>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <!-- Kegiatan -->
-                <div class="col-md-6">
-                    <label class="form-label">Kegiatan</label>
-                    <div class="card p-2">
-                        {% for kegiatan in form.kegiatan.field.choices %}
-                            <div class="form-check">
-                                <input type="checkbox" class="form-check-input" name="kegiatan" value="{{ kegiatan.0 }}"
-                                    {% if kegiatan.0 in form.kegiatan.value %}checked{% endif %}>
-                                <label class="form-check-label">{{ kegiatan.1 }}</label>
-                            </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-
-
                 <div class="row">
                     <div class="col-md-6">
                         <div class="mb-3">
@@ -127,8 +165,42 @@
                         </div>
                     </div>
                 </div>
-
                 <div class="row">
+                    <!-- Fasilitas -->
+                    <div class="col-md-6">
+                        <label class="form-label">Fasilitas</label>
+                        <div class="card p-2">
+                            {% for tipe, fasilitas_list in fasilitas_grouped.items %}
+                                <span class="header-fasilitas"><strong>{{ tipe|title }}</strong></span>
+                                {% for fasilitas in fasilitas_list %}
+                                    <div class="form-check">
+                                        <input type="checkbox" id="fasilitas_{{ fasilitas.id }}" class="form-check-input"
+                                            name="fasilitas" value="{{ fasilitas.id }}"
+                                            {% if fasilitas.id in form.fasilitas.value %}checked{% endif %}>
+                                        <label for="fasilitas_{{ fasilitas.id }}" class="form-check-label">
+                                            {{ fasilitas.nama }}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <!-- Kegiatan -->
+                    <div class="col-md-6">
+                        <label class="form-label">Kegiatan</label>
+                        <div class="card p-2">
+                            {% for kegiatan in form.kegiatan.field.choices %}
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" id="{{kegiatan.0}}" name="kegiatan" value="{{ kegiatan.0 }}"
+                                        {% if kegiatan.0 in form.kegiatan.value %}checked{% endif %}>
+                                    <label for="{{kegiatan.0}}" class="form-check-label">{{ kegiatan.1 }}</label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-3">
                     <div class="col-md-6">
                         <button type="submit" class="btn btn-primary">Simpan</button>
                     </div>
@@ -175,6 +247,21 @@
         marker.setLatLng(latlng);
         updateLatLng(latlng.lat, latlng.lng);
     }).addTo(map);
+
+    function previewImage(event) {
+        var preview = document.getElementById('preview');
+        var file = event.target.files[0];
+
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = "block";
+            };
+            reader.readAsDataURL(file);
+        }
+    }
+
 </script>
 
 {% endblock %}

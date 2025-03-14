@@ -1,0 +1,214 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ masjid_detail.nama }} - Profil Masjid</title>
+   <link href="{% static 'asset/css/sb-admin-2.min.css' %}" rel="stylesheet">
+  <link href="{% static 'asset/vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+     :root{
+      --colorMain: #01760b;
+      --colorHover:#03580a;
+      --fontFamily:'Poppins' san-serif;
+    }
+    body{
+      font-family: var(--fontFamily);
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      overflow-x: hidden;
+    }
+    .btn-primary{
+      border: none;
+      background-color: var(--colorMain)!important;
+    }
+    .btn-primary:hover{
+      background-color: var(--colorHover)!important;
+    }
+    .navbar {
+      background-color: white !important;
+      font-family: var(--fontFamily);
+      color: #000;
+      box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    }
+    .navbar-nav .nav-link {
+      color: #000;
+      font-weight: 500;
+      font-family: var(--fontFamily);
+      transition: 0.3s;
+    }
+    .navbar-nav .nav-link:hover {
+      color: var(--colorHover);
+    }
+    .navbar-collapse{
+      z-index: 10;
+    }
+    .navbar-brand {
+      font-weight: bold;
+    }
+    .masjid-header {
+      margin-top: 60px;
+      background: url("{{ masjid_detail.foto }}") center center no-repeat;
+      background-size: cover;
+      height: 450px;
+      position: relative;
+    }
+    .masjid-header .overlay {
+      background-color: rgba(0, 0, 0, 0.5);
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .masjid-header .masjid-title {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      color: #fff;
+    }
+    .section-title {
+      margin-top: 30px;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 5px;
+    }
+    i,h2,h5{
+      font-size: 20px;
+    }
+    @media screen and (max-width:540px){
+      .masjid-header .masjid-title {
+        font-size: 14px;
+      }
+      .section-title {
+        font-size: 14px;
+      }
+      i,h2,p,h5,li{
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+ <div class="container ">
+
+  <nav class="navbar navbar-expand-lg navbar-light fixed-top">
+    <div class="container">
+      <div class="d-flex align-items-center">
+        <img class="mr-2" src="{% static 'asset/img/masjid.webp' %}" width="50px" alt="Logo Sistem Informas Geografis Letak Masjid Meunasah">
+        <a class="navbar-brand" href="{% url 'home' %}">Simas Sumut</a>
+      </div>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <!-- <li class="nav-item">
+            <a class="nav-link" href="{% url 'masjid' %}">Data Masjid</a>
+          </li> -->
+          <li class="nav-item">
+            <a class="nav-link" href="/admin/login/">Masuk</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+ </div>
+  <!-- Header dengan foto masjid -->
+  <header class="masjid-header">
+    <div class="overlay"></div>
+    <div class="masjid-title">
+      <h1>{{ masjid_detail.nama }}</h1>
+      {% if masjid_detail.address %}<p>{{ masjid_detail.address }}</p>{% endif %}
+    </div>
+  </header>
+
+  <div class="container my-4">
+    <!-- Informasi Umum -->
+    <section id="profil" class="mb-5">
+      <h2 class="section-title"><i class="fas fa-mosque"></i> Profil Masjid</h2>
+      <div class="row">
+        <div class="col-md-4">
+          <img src="{{ masjid_detail.foto }}" alt="{{ masjid_detail.nama }}" class="img-fluid rounded">
+        </div>
+        <div class="col-md-8">
+          <p style="color:grey"> {{ masjid_detail.tipe }}</p>
+          <p style="color:black; font-weight: bold;"> {{ masjid_detail.nama }}</p>
+          <p><i class="fas fa-phone"></i> {{ masjid_detail.contact }}</p>
+
+          {% if masjid_detail.tahun %}
+            <p><i class="fas fa-calendar-alt"></i> Didirikan pada tahun {{ masjid_detail.tahun }}</p>
+          {% endif %}
+          <a href="https://www.google.com/maps/dir/?api=1&destination={{ masjid_detail.lat }},{{ masjid_detail.lon }}"
+            target="_blank"
+            class="btn btn-primary">
+            <i class="fas fa-map-marker-alt"></i> Buka Google Maps
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Sejarah Masjid -->
+    <section id="sejarah" class="mb-5">
+      <h2 class="section-title"><i class="fas fa-history"></i> Sejarah</h2>
+      <p>{{ masjid_detail.deskripsi }}</p>
+    </section>
+
+    <!-- Fasilitas -->
+    <section id="fasilitas" class="mb-5">
+      <h2 class="section-title"><i class="fas fa-tools"></i> Fasilitas</h2>
+      {% for tipe, fasilitas_list in masjid_detail.fasilitas_grouped.items %}
+        <h5><b>{{ tipe|title }}</b></h5>
+        <ul class="list-unstyled">
+          {% for nama in fasilitas_list %}
+            <li><i class="fas fa-check-circle text-success"></i> {{ nama }}</li>
+          {% endfor %}
+        </ul>
+      {% endfor %}
+    </section>
+
+    <!-- Kegiatan -->
+    <section id="kegiatan" class="mb-5">
+      <h2 class="section-title"><i class="fas fa-calendar-week"></i> Kegiatan</h2>
+      <ul class="list-unstyled">
+        {% for kegiatan in masjid_detail.kegiatan %}
+          <li>📌 {{ kegiatan }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <!-- Lokasi (jika ada informasi koordinat) -->
+    <!-- {% if masjid_detail.lat and masjid_detail.lon %}
+    <section id="lokasi" class="mb-5">
+      <h2 class="section-title">Lokasi</h2>
+      <div id="map" style="height: 400px;"></div>
+    </section>
+    {% endif %} -->
+  </div>
+
+  <!-- Custom scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'asset/js/sb-admin-2.min.js' %}"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css"/>
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css"/>
+  <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+  <script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.js"></script>
+
+  <script>
+    var map = L.map('map').setView([{{ masjid_detail.lat }}, {{ masjid_detail.lon }}], 15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+    L.marker([{{ masjid_detail.lat }}, {{ masjid_detail.lon }}]).addTo(map)
+      .bindPopup('{{ masjid_detail.nama }}')
+      .openPopup();
+  </script>
+</body>
+</html>
