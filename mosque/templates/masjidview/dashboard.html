@@ -5,8 +5,8 @@
     <h4 class="mb-4">Selamat Datang, {{ user.first_name|default:user.username }}! 👋</h4>
     <div class="row">
         <!-- Card Total Masjid -->
-        <div class="col-md-4">
-            <div class="card text-white bg-primary shadow-lg">
+        <div class="col-md-3">
+            <div class="card text-white btn-primary  shadow-lg">
                 <div class="card-body d-flex align-items-center">
                     <i class="fas fa-mosque fa-2x me-3"></i>
                     <div class="ml-4">
@@ -16,9 +16,20 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-primary shadow-lg">
+                <div class="card-body d-flex align-items-center">
+                    <i class="fas fa-mosque fa-2x me-3"></i>
+                    <div class="ml-4">
+                        <h5 class="card-title">Total Meunasah</h5>
+                        <h3>{{ meunasah_count }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Card Total Fasilitas -->
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card text-white bg-success shadow-lg">
                 <div class="card-body d-flex align-items-center">
                     <i class="fas fa-tools fa-2x me-3"></i>
@@ -31,7 +42,7 @@
         </div>
 
         <!-- Card Total Kegiatan -->
-        <div class="col-md-4">
+        <div class="col-md-3">
             <div class="card text-white bg-warning shadow-lg">
                 <div class="card-body d-flex align-items-center">
                     <i class="fas fa-calendar-alt fa-2x me-3"></i>

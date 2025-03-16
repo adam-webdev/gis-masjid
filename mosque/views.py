@@ -11,19 +11,35 @@ from django.core.serializers import serialize
 from django.http import JsonResponse
 import pandas as pd
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
 
 
+def login_view(request):
+        if request.method == "POST":
+            username = request.POST.get("username")
+            password = request.POST.get("password")
+            user = authenticate(request, username=username, password=password)
 
+            if user is not None:
+                login(request, user)
+                return redirect("dashboard")  # Ganti dengan URL dashboard
+            else:
+                messages.error(request, "Username atau password salah!")
 
+        return render(request, "admin/login.html")
 # Dashboard View
-class DashboardView(ListView):
+class DashboardView(LoginRequiredMixin,ListView):
     model = Masjid
     template_name = 'masjidview/dashboard.html'
+    login_url = '/login/'
+    redirect_field_name = 'next'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['user'] = self.request.user
-        context['masjid_count'] = Masjid.objects.count()
+        # context['masjid_count'] = Masjid.objects.count()
+        context['meunasah_count'] = Masjid.objects.filter(tipe="meunasah").count()
+        context['masjid_count'] = Masjid.objects.exclude(tipe="meunasah").count()
         context['fasilitas_count'] = Fasilitas.objects.count()  # Total fasilitas
         context['kegiatan_count'] = Kegiatan.objects.count()  # Total kegiatan
         return context

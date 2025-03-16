@@ -18,15 +18,16 @@ from .views import (
     KegiatanDeleteView,
     HomeView,
     HomeDetailView,
-    import_masjid_excel
+    import_masjid_excel,
+    login_view
 )
-
 urlpatterns = [
+    path("login/", login_view, name="login"),
     path('admin/', admin.site.urls),
     path('', HomeView.as_view(), name='home'),
     path('masjid-detail/<int:pk>/', HomeDetailView.as_view(), name='homedetail'),
     path('dashboard/', DashboardView.as_view(), name='dashboard'),
-    path('logout/', LogoutView.as_view(next_page='/admin/login/'), name='logout'),
+    path('logout/', LogoutView.as_view(next_page='/login/'), name='logout'),
     # Masjid
     path('masjid/', MasjidListView.as_view(), name='masjid'),
     path('masjid/add/', MasjidCreateView.as_view(), name='masjid_create'),
